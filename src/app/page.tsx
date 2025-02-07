@@ -1,7 +1,10 @@
+import { Suspense } from "react";
 import { Top } from "~/screens/Top";
 
 export default function Home() {
   return (
-    <Top />
+    <Suspense>
+      <Top />
+    </Suspense>
   )
 }
