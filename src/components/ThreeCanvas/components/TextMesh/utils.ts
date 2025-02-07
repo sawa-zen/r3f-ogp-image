@@ -28,7 +28,7 @@ export const convert = (text: string, font: opentype.Font): Shape[] => {
 
     if (i > 0) {
       const prevGlyph = font.charToGlyph(text[i - 1]); // 前の文字の Glyph オブジェクトを取得
-      let kerning = font.getKerningValue(prevGlyph.index, glyph.index); // グリフのインデックスを取得して適用
+      const kerning = font.getKerningValue(prevGlyph.index, glyph.index); // グリフのインデックスを取得して適用
       advanceWidth += kerning * (size / font.unitsPerEm); // カーニングのスケールを適用
     }
 

@@ -43,7 +43,7 @@ export const TextMesh = ({
       setFont(font)
       onReady?.()
     })
-  }, [])
+  }, [font, onReady])
 
   useFrame(() => {
     if (!textMeshRef.current || !outlineMeshRef.current) return

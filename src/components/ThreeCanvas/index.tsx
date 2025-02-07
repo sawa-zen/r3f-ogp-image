@@ -14,7 +14,7 @@ export const ThreeCanvas = ({ text, scale }: Props) => {
   const handleReady = useCallback(() => {
     if (id) return
     setId('ready')
-  }, [id, text])
+  }, [id])
 
   return (
     <Canvas
