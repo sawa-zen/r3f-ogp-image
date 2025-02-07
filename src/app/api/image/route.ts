@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
-import puppeteer from 'puppeteer'
+import puppeteer from 'puppeteer-core'
+import chromium from '@sparticuz/chromium'
 
 export async function GET(request: Request) {
   // URLからクエリパラメータを取得
@@ -7,7 +8,14 @@ export async function GET(request: Request) {
   const text = searchParams.get('text') || ''
   const scale = parseFloat(searchParams.get('scale') || '1')
 
-  const browser = await puppeteer.launch()
+  const executablePath = await chromium.executablePath() || '/usr/bin/google-chrome-stable';
+
+  const browser = await puppeteer.launch({
+    args: chromium.args,
+    defaultViewport: chromium.defaultViewport,
+    executablePath,
+    headless: true,
+  })
   const page = await browser.newPage()
 
   // ブラウザを 1200 x 630 に設定
