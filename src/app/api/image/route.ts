@@ -18,16 +18,17 @@ export async function GET(request: Request) {
 
     // 環境に応じてアクセス先URLを決定
     const isDev = process.env.NODE_ENV === 'development';
-    const siteUrl = isDev
-      ? process.env.TUNNEL_URL
-      : process.env.NEXT_PUBLIC_SITE_URL || 'https://r3f-ogp-image.vercel.app';
+    // const siteUrl = isDev
+    //   ? process.env.TUNNEL_URL
+    //   : process.env.NEXT_PUBLIC_SITE_URL || 'https://r3f-ogp-image.vercel.app';
+    const siteUrl = `${process.env.TUNNEL_URL}/test`
 
     // ページを開いて準備ができるまで待機
     await page.goto(`${siteUrl}?text=${text}&scale=${scale}`, {
-      timeout: 120000,
+      timeout: 300000,
       waitUntil: 'networkidle0',
     });
-    await page.waitForSelector('#ready', { timeout: 120000 });
+    // await page.waitForSelector('#ready', { timeout: 300000 });
 
     // スクリーンショット
     const buffer = await page.screenshot({ encoding: 'binary' });

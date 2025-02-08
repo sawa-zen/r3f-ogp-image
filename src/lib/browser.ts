@@ -1,5 +1,5 @@
 // lib/browser.ts
-import puppeteer, { Browser } from 'puppeteer';
+import puppeteer, { Browser } from 'puppeteer-core';
 
 let _browser: Browser | null = null;
 
