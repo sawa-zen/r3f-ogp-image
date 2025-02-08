@@ -3,7 +3,7 @@ import puppeteer from 'puppeteer'
 
 export async function GET(request: Request) {
   // URLからクエリパラメータを取得
-  const { searchParams, origin } = new URL(request.url)
+  const { searchParams } = new URL(request.url)
   const text = searchParams.get('text') || ''
   const scale = parseFloat(searchParams.get('scale') || '1')
 
