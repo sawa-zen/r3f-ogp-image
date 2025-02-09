@@ -16,7 +16,16 @@ export async function generateMetadata() {
         width: 600,
         height: 315,
       }],
-    }
+    },
+    twitter: {
+      card: 'summary_large_image',
+      creator: '@sawa_zen',
+      images: [{
+        url: `${siteUrl}/api/image`,
+        width: 600,
+        height: 315,
+      }],
+    },
   }
 }
 

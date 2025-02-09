@@ -19,7 +19,16 @@ export async function generateMetadata({ searchParams }: { searchParams: { [key:
         width: 600,
         height: 315,
       }],
-    }
+    },
+    twitter: {
+      card: 'summary_large_image',
+      creator: '@sawa_zen',
+      images: [{
+        url: `${siteUrl}/api/image?first_line=${firstLineText}&second_line=${secondLineText}&scale=${scale}`,
+        width: 600,
+        height: 315,
+      }],
+    },
   }
 }
 
