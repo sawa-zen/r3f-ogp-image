@@ -11,7 +11,11 @@ export async function generateMetadata() {
     title: "3D 5000兆円欲しいジェネレータ",
     description: "3D版の5000兆円欲しいジェネレータです",
     openGraph: {
-      images: [`${siteUrl}/api/image`],
+      images: [{
+        url: `${siteUrl}/api/image`,
+        width: 600,
+        height: 315,
+      }],
     }
   }
 }

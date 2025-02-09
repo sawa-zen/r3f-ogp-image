@@ -14,7 +14,11 @@ export async function generateMetadata({ searchParams }: { searchParams: { [key:
 
   return {
     openGraph: {
-      images: [`${siteUrl}/api/image?first_line=${firstLineText}&second_line=${secondLineText}&scale=${scale}`],
+      images: [{
+        url: `${siteUrl}/api/image?first_line=${firstLineText}&second_line=${secondLineText}&scale=${scale}`,
+        width: 600,
+        height: 315,
+      }],
     }
   }
 }
