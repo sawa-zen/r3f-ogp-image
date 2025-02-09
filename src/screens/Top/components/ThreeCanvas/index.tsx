@@ -1,3 +1,5 @@
+"use client"
+
 import { Canvas } from '@react-three/fiber'
 import { Environment } from '@react-three/drei'
 import { TextMesh } from './components/TextMesh'
@@ -35,7 +37,7 @@ export const ThreeCanvas = ({ firstLineText, secondLineText, scale, className }:
       className={`bg-white ${className}`}
       style={{ aspectRatio: "1200/630" }}
       camera={{ position: [0, 0, 0] }}
-      dpr={1}
+      dpr={2}
       gl={{ antialias: true, preserveDrawingBuffer: true }}
       frameloop="demand"
     >
