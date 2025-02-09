@@ -2,7 +2,7 @@
 
 import { useSearchParams } from "next/navigation";
 import { ChangeEvent, useCallback, useState } from 'react'
-import { ThreeCanvas } from '~/components/ThreeCanvas'
+import { ThreeCanvas } from './components/ThreeCanvas'
 
 export const Top = () => {
   const searchParams = useSearchParams();
