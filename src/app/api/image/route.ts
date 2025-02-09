@@ -4,7 +4,8 @@ import puppeteer from 'puppeteer-core';
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
-  const text = searchParams.get('text') || '';
+  const firstLineText = searchParams.get('first_line') || '';
+  const secondLineText = searchParams.get('second_line') || '';
   const scale = parseFloat(searchParams.get('scale') || '1');
 
   // 使い回し中のBrowserを取得
@@ -25,7 +26,7 @@ export async function GET(request: Request) {
       : process.env.NEXT_PUBLIC_SITE_URL || 'https://r3f-ogp-image.vercel.app';
 
     // ページを開いて準備ができるまで待機
-    await page.goto(`${siteUrl}?ogp_image=true&text=${text}&scale=${scale}`, {
+    await page.goto(`${siteUrl}?ogp_image=true&first_line=${firstLineText}&second_line=${secondLineText}&scale=${scale}`, {
       timeout: 300000,
       waitUntil: 'networkidle0',
     });
