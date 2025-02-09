@@ -5,11 +5,13 @@ import { useCallback, useEffect, useState } from 'react'
 import opentype from 'opentype.js'
 
 interface Props {
-  text: string
+  firstLineText: string
+  secondLineText: string
   scale: number
+  className?: string
 }
 
-export const ThreeCanvas = ({ text, scale }: Props) => {
+export const ThreeCanvas = ({ firstLineText, secondLineText, scale, className }: Props) => {
   const [font, setFont] = useState<opentype.Font | undefined>(undefined)
   const [firstLineReady, setFirstLineReady] = useState(false)
   const [secondLineReady, setSecondLineReady] = useState(false)
@@ -30,7 +32,7 @@ export const ThreeCanvas = ({ text, scale }: Props) => {
   return (
     <Canvas
       id={firstLineReady && secondLineReady ? "ready" : "loading"}
-      className="bg-white"
+      className={`bg-white ${className}`}
       style={{ aspectRatio: "1200/630" }}
       camera={{ position: [0, 0, 0] }}
       dpr={1}
@@ -51,7 +53,7 @@ export const ThreeCanvas = ({ text, scale }: Props) => {
           scale={[scale, scale, scale]}
         >
           <TextMesh
-            text={text}
+            text={firstLineText}
             font={font}
             color="#FF3333"
             outlineColor="#FFCC00"
@@ -59,7 +61,7 @@ export const ThreeCanvas = ({ text, scale }: Props) => {
             onReady={() => setFirstLineReady(true)}
           />
           <TextMesh
-            text="欲しい"
+            text={secondLineText}
             font={font}
             color="#FFFFFF"
             outlineColor="#999999"

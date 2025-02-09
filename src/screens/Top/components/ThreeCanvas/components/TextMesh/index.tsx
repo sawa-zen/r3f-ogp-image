@@ -36,7 +36,11 @@ export const TextMesh = ({
     textMeshRef.current.position.y = y
     outlineMeshRef.current.position.x = x
     outlineMeshRef.current.position.y = y
-    onReady()
+
+    setTimeout(() => {
+      invalidate()
+      onReady()
+    }, 10)
   }, [invalidate, onReady, shapes.length])
 
   return (
