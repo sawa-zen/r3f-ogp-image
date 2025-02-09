@@ -16,7 +16,7 @@ export async function GET(request: Request) {
 
   try {
     // ビューポート等の初期設定
-    await page.setViewport({ width: 1200, height: 630 });
+    await page.setViewport({ width: 600, height: 315 });
 
     // 環境に応じてアクセス先URLを決定
     const isDev = process.env.NODE_ENV === 'development';

@@ -30,7 +30,7 @@ export const TextMesh = ({
     if (!textMeshRef.current || !outlineMeshRef.current || !shapes.length) return
     textMeshRef.current.geometry.computeBoundingBox()
     outlineMeshRef.current.geometry.computeBoundingBox()
-    const x = -Math.abs(outlineMeshRef.current.geometry.boundingBox!.max.x - outlineMeshRef.current.geometry.boundingBox!.min.x) / 2
+    const x = -Math.abs(textMeshRef.current.geometry.boundingBox!.max.x - textMeshRef.current.geometry.boundingBox!.min.x) / 2
     const y = -Math.abs(outlineMeshRef.current.geometry.boundingBox!.max.y - outlineMeshRef.current.geometry.boundingBox!.min.y) / 2
     textMeshRef.current.position.x = x
     textMeshRef.current.position.y = y

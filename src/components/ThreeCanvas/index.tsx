@@ -23,7 +23,7 @@ export const ThreeCanvas = ({ text, scale }: Props) => {
   }, [])
 
   useEffect(() => {
-    const fontUrl = "./DelaGothicOne-Regular.woff";
+    const fontUrl = "/fonts/delagothic_one-regular.woff"; // 小文字のファイル名でないと読み込まれない
     opentype.load(fontUrl, handleLoadedFont)
   }, [handleLoadedFont])
 
@@ -33,6 +33,7 @@ export const ThreeCanvas = ({ text, scale }: Props) => {
       className="bg-white"
       style={{ aspectRatio: "1200/630" }}
       camera={{ position: [0, 0, 0] }}
+      dpr={1}
       frameloop="demand"
     >
       <ambientLight intensity={1} />
