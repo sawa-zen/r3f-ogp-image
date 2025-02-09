@@ -1,21 +1,21 @@
-import { useEffect, useRef, useState } from 'react'
-import { Mesh, Shape } from 'three'
+import { useEffect, useMemo, useRef } from 'react'
+import { Mesh } from 'three'
 import { convert } from './utils'
 import opentype from 'opentype.js'
-import { useFrame } from '@react-three/fiber'
+import { useThree } from '@react-three/fiber'
 
 interface Props {
   text: string
+  font: opentype.Font
   color: string
   outlineColor: string
   position?: [number, number, number]
-  onReady?: () => void
+  onReady: () => void
 }
-
-const defaultShape: Shape[] = []
 
 export const TextMesh = ({
   text,
+  font,
   color,
   outlineColor,
   position,
@@ -23,42 +23,28 @@ export const TextMesh = ({
 }: Props) => {
   const textMeshRef = useRef<Mesh>(null)
   const outlineMeshRef = useRef<Mesh>(null)
-  const [shapes, setShapes] = useState<Shape[]>(defaultShape)
-  const [font, setFont] = useState<opentype.Font | null>(null)
+  const { invalidate } = useThree()
+  const shapes = useMemo(() => convert(text, font), [text, font])
 
   useEffect(() => {
-    if (!font || !text) return
-    const threeShapes = convert(text, font)
-    setShapes(threeShapes)
-  }, [font, text])
-
-  useEffect(() => {
-    if (font) return
-    const fontUrl = "./DelaGothicOne-Regular.ttf";
-    opentype.load(fontUrl, function (err, font) {
-      if (err || !font) {
-        console.error('フォントのロードに失敗しました:', err);
-        return
-      }
-      setFont(font)
-      onReady?.()
-    })
-  }, [font, onReady])
-
-  useFrame(() => {
-    if (!textMeshRef.current || !outlineMeshRef.current) return
+    if (!textMeshRef.current || !outlineMeshRef.current || !shapes.length) return
     textMeshRef.current.geometry.computeBoundingBox()
-    textMeshRef.current.geometry.center()
     outlineMeshRef.current.geometry.computeBoundingBox()
-    outlineMeshRef.current.geometry.center()
-  })
+    const x = -Math.abs(outlineMeshRef.current.geometry.boundingBox!.max.x - outlineMeshRef.current.geometry.boundingBox!.min.x) / 2
+    const y = -Math.abs(outlineMeshRef.current.geometry.boundingBox!.max.y - outlineMeshRef.current.geometry.boundingBox!.min.y) / 2
+    textMeshRef.current.position.x = x
+    textMeshRef.current.position.y = y
+    outlineMeshRef.current.position.x = x
+    outlineMeshRef.current.position.y = y
+    onReady()
+  }, [invalidate, onReady, shapes.length])
 
   return (
     <group position={position}>
       <mesh ref={textMeshRef}>
         <extrudeGeometry
           args={[shapes, {
-            depth: 1.23,
+            depth: 1.12,
             bevelEnabled: false,
           }]}
         />
