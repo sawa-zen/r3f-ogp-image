@@ -32,6 +32,16 @@ export const Top = () => {
     window.open(url, '_blank');
   }, [])
 
+  const handleClickSaveImage = useCallback(() => {
+    const canvas = document.querySelector('canvas')
+    if (!canvas) return
+    const url = canvas.toDataURL('image/png')
+    const a = document.createElement('a')
+    a.href = url
+    a.download = '5000兆円欲しい.png'
+    a.click()
+  }, [])
+
   useEffect(() => {
     // URLにパラメーターを追加
     const url = new URL(location.href)
@@ -53,7 +63,7 @@ export const Top = () => {
 
   return (
     <div className='flex flex-col items-center bg-slate-300 p-8 overflow-hidden'>
-      <div className="max-w-5xl flex flex-col items-stretch space-y-4 overflow-hidden">
+      <div className="max-w-5xl flex flex-col items-stretch space-y-8 overflow-hidden">
         <h1 className="text-4xl font-bold">
           3D 5000兆円欲しいジェネレータ
         </h1>
@@ -65,44 +75,57 @@ export const Top = () => {
             scale={scale}
           />
         </div>
-        <div className="flex flex-col space-y-2">
-          <label htmlFor="text">一行目テキスト</label>
-          <input
-            type="text"
-            value={firstLineText}
-            name="text"
-            className='text-black p-2 rounded-lg'
-            onChange={handleChangeFirstLineText}
-          />
+        <div className="flex flex-col space-y-4">
+          <div className="flex flex-col space-y-2">
+            <label htmlFor="text">一行目テキスト</label>
+            <input
+              type="text"
+              value={firstLineText}
+              name="text"
+              className='text-black p-2 rounded-lg'
+              onChange={handleChangeFirstLineText}
+            />
+          </div>
+          <div className="flex flex-col space-y-2">
+            <label htmlFor="text">二行目テキスト</label>
+            <input
+              type="text"
+              value={secondLineText}
+              name="text"
+              className='text-black p-2 rounded-lg'
+              onChange={handleChangeSecondLineText}
+            />
+          </div>
+          <div className="flex flex-col space-y-2">
+            <label htmlFor="scale">スケール</label>
+            <input
+              type="range"
+              value={scale}
+              name="scale"
+              min={0.1}
+              max={2}
+              step={0.1}
+              onChange={handleChangeScale}
+            />
+          </div>
         </div>
-        <div className="flex flex-col space-y-2">
-          <label htmlFor="text">二行目テキスト</label>
-          <input
-            type="text"
-            value={secondLineText}
-            name="text"
-            className='text-black p-2 rounded-lg'
-            onChange={handleChangeSecondLineText}
-          />
+        <div className="flex flex-col space-y-4">
+          <button
+            className="bg-blue-500 text-white p-2 rounded-lg disabled:bg-gray-400"
+            onClick={handleClickTweet}
+          >
+            画像をXに投稿する
+          </button>
+          <button
+            className="bg-teal-500 text-white p-2 rounded-lg disabled:bg-gray-400"
+            onClick={handleClickSaveImage}
+          >
+            画像を保存する
+          </button>
         </div>
-        <div className="flex flex-col space-y-2">
-          <label htmlFor="scale">スケール</label>
-          <input
-            type="range"
-            value={scale}
-            name="scale"
-            min={0.1}
-            max={2}
-            step={0.1}
-            onChange={handleChangeScale}
-          />
-        </div>
-        <button
-          className="bg-blue-500 text-white p-2 rounded-lg"
-          onClick={handleClickTweet}
-        >
-          画像をXに投稿する
-        </button>
+        <footer className="text-center text-gray-500 text-sm">
+          Created by <a href="https://x.com/sawa_zen" target="_blank" rel="noopener noreferrer">@sawa-zen</a>
+        </footer>
       </div>
     </div>
   )

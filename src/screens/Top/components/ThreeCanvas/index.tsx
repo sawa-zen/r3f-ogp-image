@@ -36,16 +36,14 @@ export const ThreeCanvas = ({ firstLineText, secondLineText, scale, className }:
       style={{ aspectRatio: "1200/630" }}
       camera={{ position: [0, 0, 0] }}
       dpr={1}
+      gl={{ antialias: true, preserveDrawingBuffer: true }}
       frameloop="demand"
     >
+      <color attach="background" args={["white"]} />
       <ambientLight intensity={1} />
       <directionalLight position={[-10, 20, 10]} intensity={1} />
       <directionalLight position={[10, 20, 10]} intensity={1} />
       <Environment preset="studio" />
-      <mesh>
-        <boxGeometry args={[1, 1, 1]} />
-        <meshStandardMaterial color="#FFFF00" />
-      </mesh>
       {font && (
         <group
           position={[0, 0, -3]}
