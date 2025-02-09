@@ -27,8 +27,8 @@ export const Top = () => {
   }, [])
 
   const handleClickTweet = useCallback(() => {
-    const text = '#5000兆円欲しい'
-    const url = `https://x.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(location.href)}`;
+    const text = `#5000兆円欲しい\n${location.href}`
+    const url = `https://x.com/intent/tweet?text=${encodeURIComponent(text)}`;
     window.open(url, '_blank');
   }, [])
 
