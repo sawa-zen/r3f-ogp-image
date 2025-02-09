@@ -6,6 +6,7 @@ import { ThreeCanvas } from './components/ThreeCanvas'
 
 export const Top = () => {
   const searchParams = useSearchParams();
+  const ogpImageMode = searchParams.get('ogp_image') ? true : false
   const defaultText = searchParams.get('text') || "5000兆円"
   const defaultScale = searchParams.get('scale') || "1"
   const [text, setText] = useState(defaultText)
@@ -19,23 +20,35 @@ export const Top = () => {
     setScale(parseFloat(e.target.value))
   }, [])
 
+  if (ogpImageMode) {
+    return <ThreeCanvas text={text} scale={scale} />
+  }
+
   return (
     <div>
       <ThreeCanvas text={text} scale={scale} />
-      <input
-        type="text"
-        value={text}
-        className='text-black'
-        onChange={handleChangeText}
-      />
-      <input
-        type="range"
-        value={scale}
-        min={0.1}
-        max={2}
-        step={0.1}
-        onChange={handleChangeScale}
-      />
+      <div>
+        <label htmlFor="text">テキスト</label>
+        <input
+          type="text"
+          value={text}
+          name="text"
+          className='text-black'
+          onChange={handleChangeText}
+        />
+      </div>
+      <div>
+        <label htmlFor="scale">スケール</label>
+        <input
+          type="range"
+          value={scale}
+          name="scale"
+          min={0.1}
+          max={2}
+          step={0.1}
+          onChange={handleChangeScale}
+        />
+      </div>
     </div>
   )
 }
