@@ -3,6 +3,7 @@ import { Mesh } from 'three'
 import { convert } from './utils'
 import opentype from 'opentype.js'
 import { useThree } from '@react-three/fiber'
+import { MetalMaterial } from '../MetalMaterial'
 
 interface Props {
   text: string
@@ -44,26 +45,19 @@ export const TextMesh = ({
     <group position={position}>
       <mesh ref={textMeshRef} position={[0, -0.7, 1.105]}>
         <shapeGeometry args={[shapes]} />
-        <meshBasicMaterial
-          color={color}
-          // metalness={1.0}
-          // roughness={0.2}
-        />
+        <MetalMaterial color={color} />
       </mesh>
       <mesh ref={outlineMeshRef} position={[0, -0.7, -0.1]}>
         <extrudeGeometry
           args={[shapes, {
-            curveSegments: 3,
-            steps: 1,
+            curveSegments: 2,
+            steps: 0,
             depth: 1,
-            bevelEnabled: true,
+            bevelSegments: 2,
+            bevelSize: 0.1,
           }]}
         />
-        <meshBasicMaterial
-          color={outlineColor}
-          // metalness={1.0}
-          // roughness={0.2}
-        />
+        <MetalMaterial color={outlineColor} />
       </mesh>
     </group>
   )
