@@ -10,7 +10,7 @@ export async function GET(request: Request) {
 
   // 使い回し中のBrowserを取得
   const browser = await puppeteer.connect({
-    browserWSEndpoint: `wss://chrome.browserless.io?token=${process.env.BLESS_TOKEN}&--use-gl=angle&--use-angle=gl`,
+    browserWSEndpoint: `ws://192.168.11.34:30090`,
   })
   // 新規ページを開く
   const page = await browser.newPage();

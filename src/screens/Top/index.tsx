@@ -57,6 +57,7 @@ export const Top = () => {
         firstLineText={firstLineText}
         secondLineText={secondLineText}
         scale={scale}
+        ogpImageMode
       />
     )
   }

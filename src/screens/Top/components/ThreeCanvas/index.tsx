@@ -1,5 +1,4 @@
 import { Canvas } from '@react-three/fiber'
-import { Environment } from '@react-three/drei'
 import { TextMesh } from './components/TextMesh'
 import { useCallback, useEffect, useState } from 'react'
 import opentype from 'opentype.js'
@@ -9,9 +8,10 @@ interface Props {
   secondLineText: string
   scale: number
   className?: string
+  ogpImageMode?: boolean
 }
 
-export const ThreeCanvas = ({ firstLineText, secondLineText, scale, className }: Props) => {
+export const ThreeCanvas = ({ firstLineText, secondLineText, scale, className, ogpImageMode }: Props) => {
   const [font, setFont] = useState<opentype.Font | undefined>(undefined)
   const [firstLineReady, setFirstLineReady] = useState(false)
   const [secondLineReady, setSecondLineReady] = useState(false)
@@ -32,18 +32,14 @@ export const ThreeCanvas = ({ firstLineText, secondLineText, scale, className }:
   return (
     <Canvas
       id={firstLineReady && secondLineReady ? "ready" : "loading"}
-      className={`bg-white ${className}`}
+      className={className}
       style={{ aspectRatio: "1200/630" }}
       camera={{ position: [0, 0, 0] }}
-      dpr={2}
-      gl={{ antialias: true, preserveDrawingBuffer: true }}
-      frameloop="demand"
+      dpr={ogpImageMode ? 1 : 2}
+      gl={{ preserveDrawingBuffer: true, alpha: false }}
+      frameloop="never"
     >
       <color attach="background" args={["white"]} />
-      <ambientLight intensity={1} />
-      <directionalLight position={[-10, 20, 10]} intensity={1} />
-      <directionalLight position={[10, 20, 10]} intensity={1} />
-      <Environment preset="studio" />
       {font && (
         <group
           position={[0, 0, -3]}
