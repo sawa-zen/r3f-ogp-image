@@ -26,7 +26,7 @@ export async function GET(request: Request) {
       : process.env.NEXT_PUBLIC_SITE_URL || 'https://r3f-ogp-image.vercel.app';
 
     // ページを開いて準備ができるまで待機
-    await page.goto(`${siteUrl}?ogp_image=true&first_line=${firstLineText}&second_line=${secondLineText}&scale=${scale}`, {
+    await page.goto(`${siteUrl}/image?first_line=${firstLineText}&second_line=${secondLineText}&scale=${scale}`, {
       timeout: 300000,
       waitUntil: 'networkidle0',
     });

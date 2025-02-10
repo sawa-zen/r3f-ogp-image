@@ -1,5 +1,5 @@
 import { Suspense } from "react";
-import { Top } from "~/screens/Top";
+import { TopScreen } from "~/screens/TopScreen";
 
 export async function generateMetadata({ searchParams }: { searchParams: { [key: string]: string } }) {
   const firstLineText = searchParams['first_line'] || '5000兆円';
@@ -35,7 +35,7 @@ export async function generateMetadata({ searchParams }: { searchParams: { [key:
 export default function Home() {
   return (
     <Suspense>
-      <Top />
+      <TopScreen />
     </Suspense>
   )
 }

@@ -2,11 +2,10 @@
 
 import { useSearchParams } from "next/navigation";
 import { ChangeEvent, useCallback, useEffect, useState } from 'react'
-import { ThreeCanvas } from './components/ThreeCanvas'
+import { ThreeCanvas } from '../../components/ThreeCanvas'
 
-export const Top = () => {
+export const TopScreen = () => {
   const searchParams = useSearchParams();
-  const ogpImageMode = searchParams.get('ogp_image') ? true : false
   const defaultFirstLineText = searchParams.get('first_line') || "5000兆円"
   const defaultSecondLineText = searchParams.get('second_line') || "欲しい"
   const defaultScale = searchParams.get('scale') || "1"
@@ -50,17 +49,6 @@ export const Top = () => {
     url.searchParams.set('scale', scale.toString())
     history.replaceState(null, '', url.toString())
   }, [firstLineText, scale, secondLineText])
-
-  if (ogpImageMode) {
-    return (
-      <ThreeCanvas
-        firstLineText={firstLineText}
-        secondLineText={secondLineText}
-        scale={scale}
-        ogpImageMode
-      />
-    )
-  }
 
   return (
     <div className='flex flex-col items-center bg-slate-300 p-8 overflow-hidden'>

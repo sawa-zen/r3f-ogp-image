@@ -1,3 +1,5 @@
+"use client"
+
 import { Canvas } from '@react-three/fiber'
 import { TextMesh } from './components/TextMesh'
 import { useCallback, useEffect, useState } from 'react'
@@ -36,7 +38,7 @@ export const ThreeCanvas = ({ firstLineText, secondLineText, scale, className, o
       style={{ aspectRatio: "1200/630" }}
       camera={{ position: [0, 0, 0] }}
       dpr={ogpImageMode ? 1 : 2}
-      gl={{ preserveDrawingBuffer: true, alpha: false }}
+      gl={{ antialias: true, preserveDrawingBuffer: true, alpha: false }}
       frameloop="never"
     >
       <color attach="background" args={["white"]} />
