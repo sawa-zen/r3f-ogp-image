@@ -10,10 +10,6 @@ export async function POST(request: NextRequest) {
   const secondLineText = params['second_line'] || '欲しい'
   const scale = parseFloat(params['scale'] || '1')
 
-  console.info('firstLineText:', firstLineText)
-  console.info('secondLineText:', secondLineText)
-  console.info('scale:', scale)
-
   // 使い回し中のBrowserを取得
   const browser = await puppeteer.connect({
     browserWSEndpoint: process.env.BROWSER_WS_ENDPOINT,
@@ -32,7 +28,7 @@ export async function POST(request: NextRequest) {
   let base64: string | undefined = undefined
   try {
     // ページを開いて準備ができるまで待機
-    await page.goto(`${siteUrl}/og-image?first_line=${firstLineText}&second_line=${secondLineText}&scale=${scale}`, {
+    await page.goto(`${siteUrl}/og-image?first_line=${encodeURIComponent(firstLineText)}&second_line=${encodeURIComponent(secondLineText)}&scale=${encodeURIComponent(scale)}`, {
       timeout: 300000,
       waitUntil: 'networkidle0',
     })
@@ -62,7 +58,8 @@ export async function POST(request: NextRequest) {
     // 画像をS3にアップロード
     await imageUpload(imageDataUrl, fileName)
     return NextResponse.json({
-      'file_url': `https://assets.5000.sawa-zen.dev/${fileName}`
+      'image_url': `https://assets.5000.sawa-zen.dev/${fileName}`,
+      'page_url': `${siteUrl}/?first_line=${encodeURIComponent(firstLineText)}&second_line=${encodeURIComponent(secondLineText)}&scale=${encodeURIComponent(scale)}`,
     })
   } catch (error) {
     console.error(error)
