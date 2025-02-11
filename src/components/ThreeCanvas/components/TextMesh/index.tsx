@@ -45,18 +45,26 @@ export const TextMesh = ({
     <group position={position}>
       <mesh ref={textMeshRef} position={[0, -0.7, 1.105]}>
         <shapeGeometry args={[shapes]} />
-        <meshPhongMaterial color={color} />
+        <meshStandardMaterial
+          color={color}
+          metalness={0.5}
+          roughness={0.8}
+        />
       </mesh>
       <mesh ref={outlineMeshRef} position={[0, -0.7, -0.1]}>
         <extrudeGeometry
           args={[shapes, {
-            curveSegments: 2,
+            curveSegments: 4,
             steps: 0,
             depth: 1,
-            bevelSegments: 2,
+            bevelSegments: 3,
           }]}
         />
-        <meshPhongMaterial color={outlineColor} />
+        <meshStandardMaterial
+          color={outlineColor}
+          metalness={1}
+          roughness={0.5}
+        />
       </mesh>
     </group>
   )

@@ -4,6 +4,7 @@ import { Canvas } from '@react-three/fiber'
 import { TextMesh } from './components/TextMesh'
 import { useCallback, useEffect, useState } from 'react'
 import opentype from 'opentype.js'
+import { Environment } from '@react-three/drei'
 
 interface Props {
   firstLineText: string
@@ -44,7 +45,8 @@ export const ThreeCanvas = ({ firstLineText, secondLineText, scale, className, o
       frameloop="never"
     >
       <color attach="background" args={["white"]} />
-      <directionalLight position={[0, 0, 1]} intensity={3} />
+      <directionalLight position={[0, 1, 1]} intensity={0.5} />
+      <Environment preset="studio" environmentIntensity={0.7} />
       {font && (
         <group
           position={[0, 0, -3]}
@@ -54,7 +56,7 @@ export const ThreeCanvas = ({ firstLineText, secondLineText, scale, className, o
           <TextMesh
             text={firstLineText}
             font={font}
-            color="#DD0000"
+            color="#FF0000"
             outlineColor="#FFCC00"
             position={[0, 0.5, 0]}
             onReady={() => setFirstLineReady(true)}
@@ -63,7 +65,7 @@ export const ThreeCanvas = ({ firstLineText, secondLineText, scale, className, o
             text={secondLineText}
             font={font}
             color="#FFFFFF"
-            outlineColor="#AAAAAA"
+            outlineColor="#888888"
             position={[0, -0.5, 0]}
             onReady={() => setSecondLineReady(true)}
           />
