@@ -11,10 +11,9 @@ interface Props {
   secondLineText: string
   scale: number
   className?: string
-  ogpImageMode?: boolean
 }
 
-export const ThreeCanvas = ({ firstLineText, secondLineText, scale, className, ogpImageMode }: Props) => {
+export const ThreeCanvas = ({ firstLineText, secondLineText, scale, className }: Props) => {
   const [font, setFont] = useState<opentype.Font | undefined>(undefined)
   const [firstLineReady, setFirstLineReady] = useState(false)
   const [secondLineReady, setSecondLineReady] = useState(false)
@@ -40,7 +39,7 @@ export const ThreeCanvas = ({ firstLineText, secondLineText, scale, className, o
       className={className}
       style={{ aspectRatio: "1200/630" }}
       camera={{ position: [0, 0, 0] }}
-      dpr={ogpImageMode ? 1 : 2}
+      dpr={2}
       gl={{ antialias: true, preserveDrawingBuffer: true, alpha: false }}
       frameloop="never"
     >

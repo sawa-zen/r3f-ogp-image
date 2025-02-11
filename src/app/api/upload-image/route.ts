@@ -1,15 +1,5 @@
-import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
 import { NextRequest, NextResponse } from 'next/server';
-
-// R2用 S3互換クライアントのセットアップ
-const s3Client = new S3Client({
-  region: "auto",
-  endpoint: process.env.CLOUDFLARE_R2_ENDPOINT || "",
-  credentials: {
-    accessKeyId: process.env.CLOUDFLARE_R2_ACCESS_KEY_ID || "",
-    secretAccessKey: process.env.CLOUDFLARE_R2_SECRET_ACCESS_KEY || "",
-  },
-})
+import { imageUpload } from '~/utils';
 
 export async function POST(request: NextRequest) {
   const params = await request.json()
@@ -22,48 +12,25 @@ export async function POST(request: NextRequest) {
     }
   }
 
+  const imageDataUrl = params.imageDataUrl
+  const fileName = params.fileName
+
+  if (!imageDataUrl || !fileName) {
+    return new NextResponse('imageDataUrl and fileName is required.', { status: 400 })
+  }
+
   try {
-    const imageDataUrl = params.imageDataUrl
-    const fileName = params.fileName
-
-    if (!imageDataUrl || !fileName) {
-      return new NextResponse('imageDataUrl and fileName is required.', { status: 400 })
-    }
-
-    // "data:image/png;base64,XXXX..." という形式なので、先頭部分を削除
-    const base64Data = imageDataUrl.replace(/^data:image\/\w+;base64,/, '')
-    // base64 => バイナリ（Buffer）に変換
-    const binaryData = Buffer.from(base64Data, 'base64')
-
-    // コンテンツタイプを取得（例: 'image/png'）
-    const match = imageDataUrl.match(/^data:(image\/\w+);base64,/)
-    const contentType = match ? match[1] : 'image/png'
-
-    // バケット名
-    const bucketName = process.env.CLOUDFLARE_R2_BUCKET_NAME;
-
-    // アップロードコマンド
-    const putCommand = new PutObjectCommand({
-      Bucket: bucketName,
-      Key: fileName,
-      Body: binaryData,
-      ContentType: contentType,
-      ContentEncoding: 'base64',
-    });
-
-    console.info('putCommand:', putCommand)
-    // R2 に送信
-    await s3Client.send(putCommand);
-
-    return new NextResponse(
-      'Canvas image uploaded successfully',
-      {
-        status: 200,
-        headers: { 'Content-Type': 'application/json' },
-      }
-    );
+    // 画像をS3にアップロード
+    await imageUpload(imageDataUrl, fileName)
+    return NextResponse.json({
+      fileUrl: `https://assets.5000.sawa-zen.dev/${fileName}`
+    })
   } catch (error) {
-    console.error(error);
-    return new NextResponse('Internal Server Error', { status: 500 });
+    console.error(error)
+    return NextResponse.json({
+      error: 'Failed to upload image'
+    }, {
+      status: 500
+    })
   }
 }

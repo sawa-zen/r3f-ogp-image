@@ -14,7 +14,6 @@ export const ImageScreen = () => {
       firstLineText={firstLineText}
       secondLineText={secondLineText}
       scale={scale}
-      ogpImageMode
     />
   )
 }
