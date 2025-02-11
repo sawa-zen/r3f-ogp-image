@@ -1,21 +1,51 @@
-import { Suspense } from "react";
-import { TopScreen } from "~/screens/TopScreen";
+import { Suspense } from "react"
+import { HeadObjectCommand, S3Client } from '@aws-sdk/client-s3'
+import { TopScreen } from "~/screens/TopScreen"
+import { generateFileName } from "~/utils";
+
+// R2用 S3互換クライアントのセットアップ
+const s3Client = new S3Client({
+  region: "auto",
+  endpoint: process.env.CLOUDFLARE_R2_ENDPOINT || "",
+  credentials: {
+    accessKeyId: process.env.CLOUDFLARE_R2_ACCESS_KEY_ID || "",
+    secretAccessKey: process.env.CLOUDFLARE_R2_SECRET_ACCESS_KEY || "",
+  },
+})
+
+async function checkFileExists(fileName: string): Promise<boolean> {
+  try {
+    await s3Client.send(new HeadObjectCommand({
+      Bucket: process.env.CLOUDFLARE_R2_BUCKET_NAME || '',
+      Key: fileName,
+    }))
+    return true
+  } catch (error) {
+    if (
+      (error as Error)?.name === "NotFound" ||
+      (error as Error)?.name === "NoSuchKey"
+    ) {
+      return false;
+    }
+    throw error;
+  }
+}
 
 export async function generateMetadata({ searchParams }: { searchParams: { [key: string]: string } }) {
   const firstLineText = searchParams['first_line'] || '5000兆円';
   const secondLineText = searchParams['second_line'] || '欲しい';
   const scale = parseFloat(searchParams['scale'] || '1');
+  const fileName = generateFileName(firstLineText, secondLineText, scale)
 
-  // 環境に応じてアクセス先URLを決定
-  const isDev = process.env.NODE_ENV === 'development';
-  const siteUrl = isDev
-    ? process.env.TUNNEL_URL
-    : "https://r3f-ogp-image.vercel.app";
+  const fileExists = await checkFileExists(fileName)
+  const url = `https://assets.5000.sawa-zen.dev/${fileName}`;
+
+  if (!fileExists) return {}
 
   return {
     openGraph: {
       images: [{
-        url: `${siteUrl}/api/og-image?first_line=${firstLineText}&second_line=${secondLineText}&scale=${scale}`,
+        url,
         width: 600,
         height: 315,
       }],
@@ -24,7 +54,7 @@ export async function generateMetadata({ searchParams }: { searchParams: { [key:
       card: 'summary_large_image',
       creator: '@sawa_zen',
       images: [{
-        url: `${siteUrl}/api/og-image?first_line=${firstLineText}&second_line=${secondLineText}&scale=${scale}`,
+        url,
         width: 600,
         height: 315,
       }],

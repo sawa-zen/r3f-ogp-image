@@ -22,7 +22,7 @@ export async function GET(request: Request) {
     const isDev = process.env.NODE_ENV === 'development'
     const siteUrl = isDev
       ? process.env.TUNNEL_URL
-      : "https://r3f-ogp-image.vercel.app"
+      : "https://5000.sawa-zen.dev"
 
     // ページを開いて準備ができるまで待機
     await page.goto(`${siteUrl}/og-image?first_line=${firstLineText}&second_line=${secondLineText}&scale=${scale}`, {

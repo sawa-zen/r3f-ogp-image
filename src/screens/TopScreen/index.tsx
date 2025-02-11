@@ -2,7 +2,9 @@
 
 import { useSearchParams } from "next/navigation";
 import { ChangeEvent, useCallback, useEffect, useState } from 'react'
-import { ThreeCanvas } from '../../components/ThreeCanvas'
+import { ThreeCanvas } from '~/components/ThreeCanvas'
+import { useAsyncFn } from 'react-use'
+import { generateFileName } from "~/utils";
 
 export const TopScreen = () => {
   const searchParams = useSearchParams();
@@ -12,6 +14,32 @@ export const TopScreen = () => {
   const [firstLineText, setFirstLineText] = useState(defaultFirstLineText)
   const [secondLineText, setSecondLineText] = useState(defaultSecondLineText)
   const [scale, setScale] = useState(parseFloat(defaultScale))
+
+  const [{ loading }, uploadImage] = useAsyncFn(async (imageDataUrl: string, fileName: string) => {
+    try {
+      const res = await fetch('/api/upload-image', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          imageDataUrl,
+          fileName,
+        }),
+      })
+
+      if (res.status !== 200) {
+        throw new Error('アップロードに失敗しました')
+      }
+
+      const text = `#5000兆円欲しい\n${location.href}`
+      const url = `https://x.com/intent/tweet?text=${encodeURIComponent(text)}`
+      window.open(url, '_blank')
+    } catch (error) {
+      console.error(error);
+      alert('アップロード中にエラーが発生しました');
+    }
+  }, [])
 
   const handleChangeFirstLineText = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     setFirstLineText(e.target.value)
@@ -26,10 +54,12 @@ export const TopScreen = () => {
   }, [])
 
   const handleClickTweet = useCallback(() => {
-    const text = `#5000兆円欲しい\n${location.href}`
-    const url = `https://x.com/intent/tweet?text=${encodeURIComponent(text)}`;
-    window.open(url, '_blank');
-  }, [])
+    const canvas = document.querySelector('canvas')
+    if (!canvas) return
+    const dataUrl = canvas.toDataURL('image/png')
+    const fileName = generateFileName(firstLineText, secondLineText, scale)
+    uploadImage(dataUrl, fileName)
+  }, [firstLineText, scale, secondLineText, uploadImage])
 
   const handleClickSaveImage = useCallback(() => {
     const canvas = document.querySelector('canvas')
@@ -101,9 +131,10 @@ export const TopScreen = () => {
         <div className="flex flex-col space-y-4">
           <button
             className="bg-blue-500 text-white p-2 rounded-lg disabled:bg-gray-400"
+            disabled={loading}
             onClick={handleClickTweet}
           >
-            画像をXに投稿する
+            { loading ? 'Loading...' : '画像をXに投稿する' }
           </button>
           <button
             className="bg-teal-500 text-white p-2 rounded-lg disabled:bg-gray-400"

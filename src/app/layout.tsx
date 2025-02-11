@@ -5,7 +5,7 @@ export const metadata: Metadata = {
   title: "[3D]5000兆円欲しいジェネレータ",
   description: "3D版の5000兆円欲しいジェネレータです",
   openGraph: {
-    images: ['/opp.png'],
+    images: ['https://5000.sawa-zen.dev/ogp.png'],
   }
 }
 
