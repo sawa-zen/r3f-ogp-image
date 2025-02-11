@@ -1,10 +1,9 @@
+import { Metadata } from "next";
 import "./globals.css";
 
-export async function generateMetadata() {
-  return {
-    title: "3D 5000兆円欲しいジェネレータ",
-    description: "3D版の5000兆円欲しいジェネレータです",
-  }
+export const metadata: Metadata = {
+  title: "3D 5000兆円欲しいジェネレータ",
+  description: "3D版の5000兆円欲しいジェネレータです",
 }
 
 export default function RootLayout({
