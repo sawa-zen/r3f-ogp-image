@@ -1,5 +1,6 @@
+"use client"
+
 import { Canvas } from '@react-three/fiber'
-import { Environment } from '@react-three/drei'
 import { TextMesh } from './components/TextMesh'
 import { useCallback, useEffect, useState } from 'react'
 import opentype from 'opentype.js'
@@ -9,9 +10,10 @@ interface Props {
   secondLineText: string
   scale: number
   className?: string
+  ogpImageMode?: boolean
 }
 
-export const ThreeCanvas = ({ firstLineText, secondLineText, scale, className }: Props) => {
+export const ThreeCanvas = ({ firstLineText, secondLineText, scale, className, ogpImageMode }: Props) => {
   const [font, setFont] = useState<opentype.Font | undefined>(undefined)
   const [firstLineReady, setFirstLineReady] = useState(false)
   const [secondLineReady, setSecondLineReady] = useState(false)
@@ -29,21 +31,20 @@ export const ThreeCanvas = ({ firstLineText, secondLineText, scale, className }:
     opentype.load(fontUrl, handleLoadedFont)
   }, [handleLoadedFont])
 
+  if (!font) return null
+
   return (
     <Canvas
       id={firstLineReady && secondLineReady ? "ready" : "loading"}
-      className={`bg-white ${className}`}
+      className={className}
       style={{ aspectRatio: "1200/630" }}
       camera={{ position: [0, 0, 0] }}
-      dpr={2}
-      gl={{ antialias: true, preserveDrawingBuffer: true }}
-      frameloop="demand"
+      dpr={ogpImageMode ? 1 : 2}
+      gl={{ antialias: true, preserveDrawingBuffer: true, alpha: false }}
+      frameloop="never"
     >
       <color attach="background" args={["white"]} />
-      <ambientLight intensity={1} />
-      <directionalLight position={[-10, 20, 10]} intensity={1} />
-      <directionalLight position={[10, 20, 10]} intensity={1} />
-      <Environment preset="studio" />
+      <directionalLight position={[0, 0, 1]} intensity={3} />
       {font && (
         <group
           position={[0, 0, -3]}
@@ -53,7 +54,7 @@ export const ThreeCanvas = ({ firstLineText, secondLineText, scale, className }:
           <TextMesh
             text={firstLineText}
             font={font}
-            color="#FF3333"
+            color="#DD0000"
             outlineColor="#FFCC00"
             position={[0, 0.5, 0]}
             onReady={() => setFirstLineReady(true)}
@@ -62,7 +63,7 @@ export const ThreeCanvas = ({ firstLineText, secondLineText, scale, className }:
             text={secondLineText}
             font={font}
             color="#FFFFFF"
-            outlineColor="#999999"
+            outlineColor="#AAAAAA"
             position={[0, -0.5, 0]}
             onReady={() => setSecondLineReady(true)}
           />

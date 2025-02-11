@@ -23,54 +23,40 @@ export const TextMesh = ({
 }: Props) => {
   const textMeshRef = useRef<Mesh>(null)
   const outlineMeshRef = useRef<Mesh>(null)
-  const { invalidate } = useThree()
+  const { advance } = useThree()
   const shapes = useMemo(() => convert(text, font), [text, font])
 
   useEffect(() => {
     if (!textMeshRef.current || !outlineMeshRef.current || !shapes.length) return
     textMeshRef.current.geometry.computeBoundingBox()
     outlineMeshRef.current.geometry.computeBoundingBox()
+    outlineMeshRef.current.geometry.computeVertexNormals()
     const x = -Math.abs(textMeshRef.current.geometry.boundingBox!.max.x - textMeshRef.current.geometry.boundingBox!.min.x) / 2
-    const y = -Math.abs(outlineMeshRef.current.geometry.boundingBox!.max.y - outlineMeshRef.current.geometry.boundingBox!.min.y) / 2
     textMeshRef.current.position.x = x
-    textMeshRef.current.position.y = y
     outlineMeshRef.current.position.x = x
-    outlineMeshRef.current.position.y = y
 
     setTimeout(() => {
-      invalidate()
+      advance(0)
       onReady()
     }, 10)
-  }, [invalidate, onReady, shapes.length])
+  }, [advance, onReady, shapes.length])
 
   return (
     <group position={position}>
-      <mesh ref={textMeshRef}>
-        <extrudeGeometry
-          args={[shapes, {
-            depth: 1.12,
-            bevelEnabled: false,
-          }]}
-        />
-        <meshStandardMaterial
-          color={color}
-          metalness={1.0}
-          roughness={0.2}
-        />
+      <mesh ref={textMeshRef} position={[0, -0.7, 1.105]}>
+        <shapeGeometry args={[shapes]} />
+        <meshPhongMaterial color={color} />
       </mesh>
-      <mesh ref={outlineMeshRef} position={[0, 0, -0.1]}>
+      <mesh ref={outlineMeshRef} position={[0, -0.7, -0.1]}>
         <extrudeGeometry
           args={[shapes, {
+            curveSegments: 2,
+            steps: 0,
             depth: 1,
-            bevelEnabled: true,
+            bevelSegments: 2,
           }]}
         />
-        <meshStandardMaterial
-          color={outlineColor}
-          metalness={1.0}
-          roughness={0.2}
-          opacity={0.5}
-        />
+        <meshPhongMaterial color={outlineColor} />
       </mesh>
     </group>
   )

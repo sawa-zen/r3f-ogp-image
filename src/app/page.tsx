@@ -1,5 +1,5 @@
 import { Suspense } from "react";
-import { Top } from "~/screens/Top";
+import { TopScreen } from "~/screens/TopScreen";
 
 export async function generateMetadata({ searchParams }: { searchParams: { [key: string]: string } }) {
   const firstLineText = searchParams['first_line'] || '5000兆円';
@@ -10,12 +10,12 @@ export async function generateMetadata({ searchParams }: { searchParams: { [key:
   const isDev = process.env.NODE_ENV === 'development';
   const siteUrl = isDev
     ? process.env.TUNNEL_URL
-    : process.env.NEXT_PUBLIC_SITE_URL || 'https://r3f-ogp-image.vercel.app';
+    : "https://r3f-ogp-image.vercel.app";
 
   return {
     openGraph: {
       images: [{
-        url: `${siteUrl}/api/image?first_line=${firstLineText}&second_line=${secondLineText}&scale=${scale}`,
+        url: `${siteUrl}/api/og-image?first_line=${firstLineText}&second_line=${secondLineText}&scale=${scale}`,
         width: 600,
         height: 315,
       }],
@@ -24,7 +24,7 @@ export async function generateMetadata({ searchParams }: { searchParams: { [key:
       card: 'summary_large_image',
       creator: '@sawa_zen',
       images: [{
-        url: `${siteUrl}/api/image?first_line=${firstLineText}&second_line=${secondLineText}&scale=${scale}`,
+        url: `${siteUrl}/api/og-image?first_line=${firstLineText}&second_line=${secondLineText}&scale=${scale}`,
         width: 600,
         height: 315,
       }],
@@ -35,7 +35,7 @@ export async function generateMetadata({ searchParams }: { searchParams: { [key:
 export default function Home() {
   return (
     <Suspense>
-      <Top />
+      <TopScreen />
     </Suspense>
   )
 }
