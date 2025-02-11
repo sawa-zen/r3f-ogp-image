@@ -5,27 +5,27 @@ export async function generateMetadata() {
   const isDev = process.env.NODE_ENV === 'development';
   const siteUrl = isDev
     ? process.env.TUNNEL_URL
-    : process.env.NEXT_PUBLIC_SITE_URL || 'https://r3f-ogp-image.vercel.app';
+    : process.env.NEXT_PUBLIC_SITE_URL;
 
   return {
     title: "3D 5000兆円欲しいジェネレータ",
     description: "3D版の5000兆円欲しいジェネレータです",
-    openGraph: {
-      images: [{
-        url: `${siteUrl}/api/image`,
-        width: 600,
-        height: 315,
-      }],
-    },
-    twitter: {
-      card: 'summary_large_image',
-      creator: '@sawa_zen',
-      images: [{
-        url: `${siteUrl}/api/image`,
-        width: 600,
-        height: 315,
-      }],
-    },
+    // openGraph: {
+    //   images: [{
+    //     url: `${siteUrl}/api/og-image`,
+    //     width: 600,
+    //     height: 315,
+    //   }],
+    // },
+    // twitter: {
+    //   card: 'summary_large_image',
+    //   creator: '@sawa_zen',
+    //   images: [{
+    //     url: `${siteUrl}/api/og-image`,
+    //     width: 600,
+    //     height: 315,
+    //   }],
+    // },
   }
 }
 

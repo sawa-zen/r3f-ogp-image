@@ -3,7 +3,6 @@ import { Mesh } from 'three'
 import { convert } from './utils'
 import opentype from 'opentype.js'
 import { useThree } from '@react-three/fiber'
-import { MetalMaterial } from '../MetalMaterial'
 
 interface Props {
   text: string
@@ -31,6 +30,7 @@ export const TextMesh = ({
     if (!textMeshRef.current || !outlineMeshRef.current || !shapes.length) return
     textMeshRef.current.geometry.computeBoundingBox()
     outlineMeshRef.current.geometry.computeBoundingBox()
+    outlineMeshRef.current.geometry.computeVertexNormals()
     const x = -Math.abs(textMeshRef.current.geometry.boundingBox!.max.x - textMeshRef.current.geometry.boundingBox!.min.x) / 2
     textMeshRef.current.position.x = x
     outlineMeshRef.current.position.x = x
@@ -45,19 +45,26 @@ export const TextMesh = ({
     <group position={position}>
       <mesh ref={textMeshRef} position={[0, -0.7, 1.105]}>
         <shapeGeometry args={[shapes]} />
-        <MetalMaterial color={color} />
+        <meshStandardMaterial
+          color={color}
+          metalness={0.5}
+          roughness={0.2}
+        />
       </mesh>
       <mesh ref={outlineMeshRef} position={[0, -0.7, -0.1]}>
         <extrudeGeometry
           args={[shapes, {
-            curveSegments: 2,
+            curveSegments: 4,
             steps: 0,
             depth: 1,
             bevelSegments: 2,
-            bevelSize: 0.1,
           }]}
         />
-        <MetalMaterial color={outlineColor} />
+        <meshStandardMaterial
+          color={outlineColor}
+          metalness={1}
+          roughness={0.2}
+        />
       </mesh>
     </group>
   )
