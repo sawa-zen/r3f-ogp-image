@@ -6,6 +6,12 @@ import { ThreeCanvas } from '~/components/ThreeCanvas'
 import { useAsyncFn } from 'react-use'
 import { generateFileName } from "~/utils";
 
+const generateCurlCommand = (firstLineText: string, secondLineText: string, scale: number) => {
+  return `curl -X POST https://5000.sawa-zen.dev/api/generate-image \\
+  -H 'Content-type: application/json' \\
+  --data '{"first_line":"${firstLineText}","second_line":"${secondLineText}","scale":"${scale}"}'`
+}
+
 export const TopScreen = () => {
   const searchParams = useSearchParams();
   const defaultFirstLineText = searchParams.get('first_line') || "5000兆円"
@@ -82,7 +88,7 @@ export const TopScreen = () => {
 
   return (
     <div className='flex flex-col items-center bg-slate-300 p-8 overflow-hidden'>
-      <div className="max-w-5xl flex flex-col items-stretch space-y-8 overflow-hidden">
+      <div className="max-w-[600px] flex flex-col items-stretch space-y-8 overflow-hidden">
         <h1 className="text-4xl font-bold">
           [3D]5000兆円欲しいジェネレータ
         </h1>
@@ -143,6 +149,16 @@ export const TopScreen = () => {
             画像を保存する
           </button>
         </div>
+
+        <div className="flex flex-col space-y-4">
+          <h2 className="text-2xl font-bold">APIで作る</h2>
+          <pre className="bg-gray-700 p-8 rounded-lg overflow-x-scroll">
+            <code className="text-sm text-white">
+              {generateCurlCommand(firstLineText, secondLineText, scale)}
+            </code>
+          </pre>
+        </div>
+
         <footer className="text-center text-gray-500 text-sm">
           Created by <a href="https://x.com/sawa_zen" target="_blank" rel="noopener noreferrer">@sawa-zen</a>
         </footer>
