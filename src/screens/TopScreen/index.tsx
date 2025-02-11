@@ -34,7 +34,7 @@ export const TopScreen = () => {
 
       const text = `#5000兆円欲しい\n${location.href}`
       const url = `https://x.com/intent/tweet?text=${encodeURIComponent(text)}`
-      window.open(url, '_blank')
+      location.href = url
     } catch (error) {
       console.error(error);
       alert('アップロード中にエラーが発生しました');
