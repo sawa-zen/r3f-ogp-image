@@ -54,7 +54,7 @@ export const TopScreen = () => {
     <div className='flex flex-col items-center bg-slate-300 p-8 overflow-hidden'>
       <div className="max-w-5xl flex flex-col items-stretch space-y-8 overflow-hidden">
         <h1 className="text-4xl font-bold">
-          3D 5000兆円欲しいジェネレータ
+          [3D]5000兆円欲しいジェネレータ
         </h1>
         <div className="overflow-hidden rounded-lg max-w-full">
           <ThreeCanvas

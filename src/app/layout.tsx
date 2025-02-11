@@ -2,8 +2,11 @@ import { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "3D 5000兆円欲しいジェネレータ",
+  title: "[3D]5000兆円欲しいジェネレータ",
   description: "3D版の5000兆円欲しいジェネレータです",
+  openGraph: {
+    images: ['/opp.png'],
+  }
 }
 
 export default function RootLayout({
