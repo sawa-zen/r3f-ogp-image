@@ -88,7 +88,7 @@ export const TopScreen = () => {
 
   return (
     <div className='flex flex-col items-center bg-slate-300 p-8 overflow-hidden'>
-      <div className="max-w-[600px] flex flex-col items-stretch space-y-8 overflow-hidden">
+      <div className="flex flex-col items-stretch space-y-8 overflow-hidden max-w-xl w-full">
         <h1 className="text-4xl font-bold">
           [3D]5000兆円欲しいジェネレータ
         </h1>
@@ -150,7 +150,7 @@ export const TopScreen = () => {
           </button>
         </div>
 
-        <div className="flex flex-col space-y-4">
+        <div className="overflow-hidden flex flex-col space-y-4">
           <h2 className="text-2xl font-bold">APIで作る</h2>
           <pre className="bg-gray-700 p-8 rounded-lg overflow-x-scroll">
             <code className="text-sm text-white">
