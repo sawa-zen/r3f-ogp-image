@@ -23,7 +23,7 @@ export async function POST(request: NextRequest) {
     // 画像をS3にアップロード
     await imageUpload(imageDataUrl, fileName)
     return NextResponse.json({
-      'image_url': `https://assets.5000.sawa-zen.dev/${fileName}`,
+      'image_url': `https://assets-5000.sawa-zen.dev/${fileName}`,
     })
   } catch (error) {
     console.error(error)

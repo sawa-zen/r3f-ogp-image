@@ -9,7 +9,6 @@ export async function POST(request: NextRequest) {
   const firstLineText = params['first_line'] || '5000兆円'
   const secondLineText = params['second_line'] || '欲しい'
   const scale = parseFloat(params['scale'] || '1')
-
   // 使い回し中のBrowserを取得
   const browser = await puppeteer.connect({
     browserWSEndpoint: process.env.BROWSER_WS_ENDPOINT,
@@ -58,7 +57,7 @@ export async function POST(request: NextRequest) {
     // 画像をS3にアップロード
     await imageUpload(imageDataUrl, fileName)
     return NextResponse.json({
-      'image_url': `https://assets.5000.sawa-zen.dev/${fileName}`,
+      'image_url': `https://assets-5000.sawa-zen.dev/${fileName}`,
       'page_url': `${siteUrl}/?first_line=${encodeURIComponent(firstLineText)}&second_line=${encodeURIComponent(secondLineText)}&scale=${encodeURIComponent(scale)}`,
     })
   } catch (error) {

@@ -9,7 +9,7 @@ export async function generateMetadata({ searchParams }: { searchParams: { [key:
   const scale = parseFloat(searchParams['scale'] || '1')
   const fileName = generateFileName(firstLineText, secondLineText, scale)
 
-  const url = `https://assets.5000.sawa-zen.dev/${fileName}`
+  const url = `https://assets-5000.sawa-zen.dev/${fileName}`
 
   return {
     openGraph: {
