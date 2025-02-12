@@ -19,8 +19,8 @@ export async function generateMetadata({ searchParams }: { searchParams: { [key:
       type: 'website',
       images: [{
         url,
-        width: 600,
-        height: 315,
+        width: 1200,
+        height: 630,
       }],
     },
     twitter: {
@@ -28,8 +28,8 @@ export async function generateMetadata({ searchParams }: { searchParams: { [key:
       creator: '@sawa_zen',
       images: [{
         url,
-        width: 600,
-        height: 315,
+        width: 1200,
+        height: 630,
       }],
     },
   }

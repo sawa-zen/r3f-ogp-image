@@ -21,6 +21,7 @@ export const generateFileName = (firstLine: string, secondLine: string, scale: n
 export const imageUpload = async (imageDataUrl: string, fileName: string) => {
   // "data:image/png;base64,XXXX..." という形式なので、先頭部分を削除
   const base64Data = imageDataUrl.replace(/^data:image\/\w+;base64,/, '')
+
   // base64 => バイナリ（Buffer）に変換
   const binaryData = Buffer.from(base64Data, 'base64')
 
@@ -31,13 +32,11 @@ export const imageUpload = async (imageDataUrl: string, fileName: string) => {
   // バケット名
   const bucketName = process.env.CLOUDFLARE_R2_BUCKET_NAME
 
-  // アップロードコマンド
   const putCommand = new PutObjectCommand({
     Bucket: bucketName,
     Key: fileName,
     Body: binaryData,
-    ContentType: contentType,
-    ContentEncoding: 'base64',
+    ContentType: contentType, // Content-Type はそのまま
   })
 
   // R2 に送信
