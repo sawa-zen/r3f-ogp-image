@@ -151,7 +151,10 @@ export const TopScreen = () => {
         </div>
 
         <div className="overflow-hidden flex flex-col space-y-4">
-          <h2 className="text-2xl font-bold">APIで作る</h2>
+          <h2 className="text-2xl font-bold">APIで画像を作る</h2>
+          <p className="text-sm">
+            API を実行すると生成した画像のURLを受け取れます。（30秒くらいかかります）
+          </p>
           <pre className="bg-gray-700 p-8 rounded-lg overflow-x-scroll">
             <code className="text-sm text-white">
               {generateCurlCommand(firstLineText, secondLineText, scale)}
