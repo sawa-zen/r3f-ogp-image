@@ -6,8 +6,8 @@ export const convert = (text: string, font: opentype.Font): Shape[] => {
   let x = 0
   const size = 1
 
-  const getPointsFromCommands = (commands: any[]): {x: number, y: number}[] => {
-    const pts = []
+  const getPointsFromCommands = (commands: opentype.PathCommand[]): { x: number, y: number }[] => {
+    const pts: { x: number, y: number }[] = []
     commands.forEach(cmd => {
       if (cmd.type === 'M' || cmd.type === 'L' || cmd.type === 'C' || cmd.type === 'Q') {
         pts.push({ x: cmd.x, y: -cmd.y })
@@ -43,8 +43,8 @@ export const convert = (text: string, font: opentype.Font): Shape[] => {
     const path = font.getPath(char, x, 0, size, { kerning: true })
     const commands = path.commands
 
-    const subpaths = []
-    let currentSubpath = []
+    const subpaths: opentype.PathCommand[][] = []
+    let currentSubpath: opentype.PathCommand[] = []
     commands.forEach(cmd => {
       if (cmd.type === 'M') {
         if (currentSubpath.length > 0) {
