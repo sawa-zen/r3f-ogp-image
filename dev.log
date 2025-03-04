@@ -1,0 +1,21 @@
+
+> r3f-ogp-image@0.1.0 dev
+> next dev -p 54839
+
+  ▲ Next.js 14.2.23
+  - Local:        http://localhost:54839
+
+ ✓ Starting...
+Attention: Next.js now collects completely anonymous telemetry regarding usage.
+This information is used to shape Next.js' roadmap and prioritize features.
+You can learn more, including how to opt-out if you'd not like to participate in this anonymous program, by visiting the following URL:
+https://nextjs.org/telemetry
+
+   Downloading swc package @next/swc-linux-arm64-gnu...
+   Downloading swc package @next/swc-linux-arm64-musl...
+ ✓ Ready in 12.5s
+ ○ Compiling / ...
+ ✓ Compiled / in 22.4s (2297 modules)
+ GET / 200 in 24644ms
+ ✓ Compiled in 2.4s (1456 modules)
+ ✓ Compiled in 177ms (1442 modules)
